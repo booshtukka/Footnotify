@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>index</title>
+	<link rel="stylesheet" href="css/reset.css" media="all" />
+	<link rel="stylesheet" href="css/style.css" media="all" />
+	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
+	<script src="js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.footnotify-1.0.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		$(function() {
+			$('#example1 abbr.footnote').footnotify({footnoteTarget:'#example1 footer', combineFootnotes: false});
+			$('#example2 abbr.footnote').footnotify({footnoteTarget:'#example2 footer', combineFootnotes: false, backLink:' <a href=\"##footnotecalloutidmask##\">back to footnote</a></li>',calloutType:'lower-alpha'});
+			$('#example3 abbr.footnote').footnotify({footnoteTarget:'#example3 footer', combineFootnotes: true,calloutType:['*', '†', '‡']});
+		});
+	</script>
+</head>
+<body>
+	<h1>Footnotify</h1>
+	<h2>What is it?</h2>
+	<p>Footnotify is a jQuery plug-in to automatically find preformatted footnotes in markup, autonumber them and place them in the correct place in the document, while also creating anchors between the body text and the footnotes. The footnote and footnote callout (e.g. *) markup is completely customisable, footnotes can be combined if the text is identical, and the callout type can be customised to roman numericals, alphabetic characters or any characters of your choosing.</p>
+	<h2>Documentation</h2>
+	<h3>Basic usage</h3>
+	<p><code><pre>$(function() {
+	$('abbr.footnote').footnotify({footnoteTarget:'footer'});
+});</pre></code></p>
+	<h3>Prerequisites</h3>
+	<p>Footnotify requires two things:</p>
+	<ol>
+		<li>Elements that contain the footnotes themselves as a title. We suggest <code>abbr</code> tags for this purpose surrounding a footnote callout symbol, as this makes sense semantically. For example:
+			<pre>Narwhals&lt;abbr title="Like unicorns, but better."&gt;*&lt;/abbr&gt; are great.</pre></li>
+		<li>Somewhere to put the footnotes. A selector for this element should be passed to Footnotify as a property called <code>footnoteTarget</code> on an object that represents the settings for Footnotify. By default, Footnotify will create an ordered list, and append it to this element. For example:
+	</ol>
+	<h3>Customisation</h3>
+	<p>The settings object passed to Footnotify can include many elements for customisation. Any masks in template text are delimited with ## before and after the mask name.</p>
+	<dl>
+		<dt>footnoteCallout (optional)</dt>
+		<dd class="defaultValue">Default value: <code>&lt;sup class="footnote" id="##footnotecalloutid##"&gt;&lt;a href="##footnoteid##">##footnotecallout##&lt;/a&gt;&lt;/sup&gt;</code></dd>
+		<dd>This string represents the footnote callout character (e.g. *) that will replace the original element. It supports several masks:
+			<dl>
+				<dt>##footnotecalloutid##</dt>
+				<dd>This mask uses the footnoteCalloutId setting to insert the unique ID for the callout.</dd>
+				<dt>##footnoteid##</dt>
+				<dd>This mask uses the footnoteId setting to insert a unique ID for the footnote.</dd>
+				<dt>##footnotecallout##</dt>
+				<dd>This mask inserts the callout symbol.</dd>
+			</dl>
+		</dd>
+		
+		<dt>footnote (optional)</dt>
+		<dd class="defaultValue">Default value: <code>&lt;li id="##footnoteid##">##footnotecallout##. ##footnotetext####backlink##&lt;/li&gt;</code></dd>
+		<dd>This string represents the footnote that will be appended to the list of footnotes. It supports several masks:
+			<dl>
+				<dt>##footnoteid##</dt>
+				<dd>This mask uses the footnoteId setting to insert a unique ID for the footnote.</dd>
+				<dt>##footnotecallout##</dt>
+				<dd>This mask inserts the callout symbol.</dd>
+				<dt>##footnotetext##</dt>
+				<dd>This mask inserts the text for the footnote.</dd>
+				<dt>##backlink##</dt>
+				<dd>This mask uses the backLink setting to insert a link back to the callout for the footnote. Note: If combineFootnotes is set to true, and multiple footnotes are found with identical text, no back links will be inserted.</dd>
+			</dl>
+		</dd>		
+		
+		<dt>footnoteID (optional)</dt>
+		<dd class="defaultValue">Default value: <code>footnote-##id##</code></dd>
+		<dd>This string represents the unique footnote IDs. It supports one mask:
+			<dl>
+				<dt>##id##</dt>
+				<dd>This mask inserts a unique ID number for the footnote.</dd>
+			</dl>
+		</dd>		
+			
+		<dt>footnoteCalloutID (optional)</dt>
+		<dd class="defaultValue">Default value: <code>footnote-callout-##id##</code></dd>
+		<dd>This string represents the unique footnote callout IDs. It supports one mask:
+			<dl>
+				<dt>##id##</dt>
+				<dd>This mask inserts a unique ID number for the footnote callout.</dd>
+			</dl>
+		</dd>
+				
+		<dt>backLink (optional)</dt>
+		<dd class="defaultValue">Default value: <code>&lt;a href="##footnotecalloutidmask##"&gt;↑&lt;/a&gt;&lt;/li&gt;</code></dd>
+		<dd>This string represents the back link in the footnote, to the footnote callout. It can be set to false to disable it altogether.  Note: If combineFootnotes is set to true, and multiple footnotes are found with identical text, no back links will be inserted. It supports one mask:
+			<dl>
+				<dt>##footnotecalloutid##</dt>
+				<dd>This mask uses the footnoteCalloutId setting to insert the unique ID for the callout.</dd>
+			</dl>
+		</dd>
+		
+		<dt>combineFootnotes (optional)</dt>
+		<dd class="defaultValue">Default value: <code>true</code></dd>
+		<dd>This boolean value determines whether or not identical footnotes should be combined into a single footnote, and share the same ID.  Note: If combineFootnotes is set to true, and multiple footnotes are found with identical text, no back links will be inserted, regardless of the backLink settings.
+
+		<dt>calloutType (optional)</dt>
+		<dd class="defaultValue">Default value: <code>decimal</code></dd>
+		<dd>This value determines the kind of symbols to use for the footnote callouts. You can provide an ordered array of characters for custom symbols, e.g. <code>['*', '†', '‡']</code>. You can also pass the named of a predefined symbolset. Supported values are:
+			<ul>
+				<li>decimal (1,2,3,4,etc)</li>
+				<li>lower-roman (i,ii,iii,iv,etc)</li>
+				<li>upper-roman (I,II,III,IV,etc)</li>
+				<li>lower-alpha (a,b,c,d,e,etc)</li>
+				<li>upper-alpha (a,b,c,d,e,etc)</li>
+			</ul>
+		</dd>
+		
+		<dt>footnoteContainer (optional)</dt>
+		<dd class="defaultValue">Default value: <code>&lt;ol class="footnotes"&gt;&lt;/ol&gt;</code></dd>
+		<dd>This string value should represent the HTML of an element, to which the footnotes will be appended. This element will finally be appended to the footnoteTarget setting.</dd>
+		
+		<dt>debug (optional)</dt>
+		<dd>Default value: <code>false</code></dd>
+		<dd>This boolean value, when set to true, will enable debug mode. In this mode Footnotify will throw exceptions in unexpected scenarios rather than failing gracefully.</dd>
+
+	<h2>Examples</h2>
+	<code>$('#example1 abbr.footnote').footnotify({footnoteTarget:'#example1 footer', combineFootnotes: false});</code>
+	<div id="example1">
+		<p>Lorem<abbr class="footnote" title="first footnote">*</abbr> ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod<abbr class="footnote" title="second footnote">*</abbr> tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor<abbr class="footnote" title="third footnote">*</abbr> incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<abbr class="footnote" title="third footnote">*</abbr>.</p>
+		<footer></footer>
+	</div>
+	
+	<code>$('#example2 abbr.footnote').footnotify({footnoteTarget:'#example2 footer', combineFootnotes: false, backLink:' &lt;a href="##footnotecalloutidmask##"&gt;back to footnote&lt;/a&gt;',calloutType:'lower-alpha'});</code>
+	<div id="example2">
+		<p>Lorem<abbr class="footnote" title="first footnote">*</abbr> ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod<abbr class="footnote" title="second footnote">*</abbr> tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor<abbr class="footnote" title="third footnote">*</abbr> incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<abbr class="footnote" title="third footnote">*</abbr>.</p>
+		<footer></footer>
+	</div>
+
+	<code>$('#example3 abbr.footnote').footnotify({footnoteTarget:'#example3 footer', combineFootnotes: true,calloutType:['*', '†', '‡']});</code>
+	<div id="example3">
+		<p>Lorem<abbr class="footnote" title="first footnote">*</abbr> ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod<abbr class="footnote" title="second footnote">*</abbr> tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor<abbr class="footnote" title="third footnote">*</abbr> incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<abbr class="footnote" title="third footnote">*</abbr>.</p>
+		<footer></footer>
+	</div>
+
+
+</body>
+</html>

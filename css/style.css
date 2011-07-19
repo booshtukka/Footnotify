@@ -1,0 +1,43 @@
+/**
+ * Main styles
+ *
+ * This file should include global styles
+ */
+
+body {margin: 10px 20px;}
+ol {margin:20px;list-style-type:decimal;}
+ul {margin:20px;list-style-type:circle;}
+ol li, ul li {margin-bottom:4px;}
+p {margin: 10px 20px;}
+dl {margin-left:30px;margin-top:8px;margin-bottom:12px;}
+dt {font-weight:bold;margin-bottom:4px;}
+dd {margin-bottom:8px;}
+dd.defaultValue {font-style:italic;margin-bottom:12px;}
+
+
+
+
+/**
+ * Tyopgraphy
+ *
+ * @section tyopgraphy
+ */
+
+body {font-family:tahoma;}
+h1, h2, h3, h4 {font-weight:bold;line-height:1.2;}
+h1 {font-size:20px;}
+h2 {font-size:17px;}
+h3 {font-size:15px;}
+sup {vertical-align: super}
+
+code {
+	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+}
+
+/**
+ * Other
+ *
+ * @section other
+ */
+sup.footnote a {text-decoration:none;}
+ol.footnotes {list-style-type:none;}
